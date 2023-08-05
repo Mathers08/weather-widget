@@ -8,7 +8,7 @@
   </header>
 </template>
 
-<script setup>
+<script>
 
 </script>
 
@@ -20,11 +20,13 @@
 
   .logo {
     display: flex;
-    gap: 10px;
+    gap: 15px;
     align-items: center;
+    color: #fff;
 
     p {
-      font-size: 20px;
+      font-size: 26px;
+      letter-spacing: .7px;
       font-weight: 700;
     }
   }
