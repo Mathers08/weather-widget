@@ -1,8 +1,7 @@
 <template>
-  <div v-if="cities.length" class="city-list">
-    <div :key="city.id" v-for="city in cities" class="info">
-      <i class="fa-solid fa-city"></i>
-      <p>{{ city.name }}</p>
+  <div v-if="cities.length" class="list">
+    <div :key="city.id" v-for="city in cities" class="list__item">
+      <city-item v-bind="city" />
     </div>
   </div>
   <div v-else class="empty-list">
@@ -17,9 +16,11 @@
 
 <script>
 import { defineComponent } from 'vue';
+import CityItem from '@/components/CityItem.vue';
 
 export default defineComponent({
   name: 'CityList',
+  components: { CityItem },
   props: {
     cities: {
       type: Array,
@@ -32,7 +33,7 @@ export default defineComponent({
   },
   data() {
     return {
-      cityValue: ''
+      cityValue: 'London'
     };
   }
 });
@@ -63,21 +64,13 @@ export default defineComponent({
   }
 }
 
-.city-list {
+.list {
   margin: 40px;
 
-  .info {
+  &__item {
     display: flex;
+    flex-direction: column;
     gap: 15px;
-
-    i {
-      font-size: 30px;
-    }
-
-    p {
-      font-size: 20px;
-      font-weight: 700;
-    }
   }
 }
 

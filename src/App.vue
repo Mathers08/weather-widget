@@ -1,34 +1,43 @@
 <template>
   <div class="container">
     <site-header />
-    <!--    <EmptyList />-->
     <city-list :cities="cities" :addCity="addCity" />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { CityList, SiteHeader } from "@/components";
-import axios from 'axios';
 import { City } from "@/types/City";
-
-const apiKey = '0cfd9b45e713356b5c256194459d602b';
-const apiUrl = `https://api.openweathermap.org/data/2.5/weather?units=metric&q=`;
+import CityList from "@/components/CityList.vue";
+import SiteHeader from "@/components/SiteHeader.vue";
+import axios from 'axios';
 
 export default defineComponent({
   name: 'App',
   components: { CityList, SiteHeader },
   data() {
     return {
+      API_URL: process.env.VUE_APP_API_URL,
+      API_KEY: process.env.VUE_APP_API_KEY,
       cities: [] as City[],
     };
   },
+
   methods: {
     async addCity(city: string) {
-      const result = await axios.get(apiUrl + city + `&appid=${apiKey}`);
+      const result = await axios.get(this.API_URL + city + `&appid=${this.API_KEY}`);
       const newCity: City = {
         id: result.data.id,
         name: result.data.name,
+        country: result.data.sys.country,
+        temp: result.data.main.temp,
+        weather: result.data.weather[0].main,
+        description: result.data.weather[0].description,
+        feelsLike: result.data.main.feels_like,
+        humidity: result.data.main.humidity,
+        visibility: result.data.visibility,
+        windSpeed: result.data.wind.speed,
+        pressure: result.data.main.pressure,
       };
       this.cities.push(newCity);
     }
