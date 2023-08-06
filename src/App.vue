@@ -1,7 +1,15 @@
 <template>
   <div class="container">
-    <site-header :settingsFlag="settingsFlag" :toggleSettings="toggleSettings"/>
-    <city-list :cities="cities" :addCity="addCity" :settingsFlag="settingsFlag" />
+    <site-header
+        :settingsFlag="settingsFlag"
+        :toggleSettings="toggleSettings"
+    />
+    <city-list
+        :cities="cities"
+        :settingsFlag="settingsFlag"
+        :addCity="addCity"
+        :removeCity="removeCity"
+    />
   </div>
 </template>
 
@@ -26,25 +34,41 @@ export default defineComponent({
 
   methods: {
     async addCity(city: string) {
-      const result = await axios.get(this.API_URL + city + `&appid=${this.API_KEY}`);
-      const newCity: City = {
-        id: result.data.id,
-        name: result.data.name,
-        country: result.data.sys.country,
-        temp: result.data.main.temp,
-        weather: result.data.weather[0].main,
-        description: result.data.weather[0].description,
-        feelsLike: result.data.main.feels_like,
-        humidity: result.data.main.humidity,
-        visibility: result.data.visibility,
-        windSpeed: result.data.wind.speed,
-        pressure: result.data.main.pressure,
-      };
-      this.cities.push(newCity);
+      try {
+        const result = await axios.get(this.API_URL + city + `&appid=${this.API_KEY}`);
+        const newCity: City = {
+          id: result.data.id,
+          name: result.data.name,
+          country: result.data.sys.country,
+          temp: result.data.main.temp,
+          weather: result.data.weather[0].main,
+          description: result.data.weather[0].description,
+          feelsLike: result.data.main.feels_like,
+          humidity: result.data.main.humidity,
+          visibility: result.data.visibility,
+          windSpeed: result.data.wind.speed,
+          pressure: result.data.main.pressure,
+        };
+        if (this.cities.some((obj) => obj.id === newCity.id)) {
+          alert('Location already exist!');
+        } else {
+          this.cities.push(newCity);
+        }
+      } catch (e) {
+        alert('Location does not exist!');
+        console.log(e);
+      }
+    },
+
+    removeCity(id: number) {
+      this.cities = this.cities.filter((c) => c.id !== id);
+      if (this.cities.length === 0) {
+        this.settingsFlag = false;
+      }
     },
 
     toggleSettings() {
-      this.settingsFlag = !this.settingsFlag
+      this.settingsFlag = !this.settingsFlag;
     }
   },
 });

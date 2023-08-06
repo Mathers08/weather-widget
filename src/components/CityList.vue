@@ -1,8 +1,13 @@
 <template>
   <main class="main">
     <div v-if="cities.length" class="main__list">
+      <!--      <draggable v-model="cities">-->
+      <!--        <template #item="{ element: city }">-->
+      <!--          <city-item v-bind="city" :settingsFlag="settingsFlag" />-->
+      <!--        </template>-->
+      <!--      </draggable>-->
       <div :key="city.id" v-for="city in cities" class="main__list-item">
-        <city-item v-bind="city" :settingsFlag="settingsFlag" />
+        <city-item v-bind="city" :removeCity="removeCity" :settingsFlag="settingsFlag" />
       </div>
     </div>
     <div v-else class="main__empty">
@@ -34,14 +39,18 @@ export default defineComponent({
       type: Array,
       required: true
     },
+    settingsFlag: {
+      type: Boolean,
+      required: true
+    },
     addCity: {
       type: Function,
       required: true
     },
-    settingsFlag: {
-      type: Boolean,
+    removeCity: {
+      type: Function,
       required: true
-    }
+    },
   },
   data() {
     return {

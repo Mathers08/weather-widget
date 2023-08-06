@@ -3,6 +3,7 @@
     <i v-if="!settingsFlag" class="fa-solid fa-location-dot"></i>
     <i v-else class="fa-solid fa-bars"></i>
     <p>{{ name }}, {{ country }}</p>
+    <i v-if="settingsFlag" class="fa-solid fa-trash" @click="removeCity(id)"></i>
   </div>
   <div v-if="!settingsFlag" class="city-weather">
     <div class="city-weather__main">
@@ -37,12 +38,13 @@
 
 <script>
 import { defineComponent } from 'vue';
-import { weatherType, capitalizeFirstLetter } from '@/utils';
+import { capitalizeFirstLetter, weatherType } from '@/utils';
 
 export default defineComponent({
   name: 'CityItem',
   methods: { weatherType, capitalizeFirstLetter },
   props: {
+    id: Number,
     name: String,
     country: String,
     temp: Number,
@@ -54,6 +56,7 @@ export default defineComponent({
     windSpeed: Number,
     pressure: Number,
     settingsFlag: Boolean,
+    removeCity: Function
   },
 });
 </script>
@@ -67,8 +70,18 @@ export default defineComponent({
   font-weight: 700;
   margin-left: -25px;
   color: #aefff4;
+
   i {
     font-size: 30px;
+  }
+
+  .fa-bars {
+    cursor: pointer;
+  }
+
+  .fa-trash {
+    margin-left: auto;
+    cursor: pointer;
   }
 }
 
