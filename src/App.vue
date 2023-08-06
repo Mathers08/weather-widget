@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <site-header />
-    <city-list :cities="cities" :addCity="addCity" />
+    <site-header :settingsFlag="settingsFlag" :toggleSettings="toggleSettings"/>
+    <city-list :cities="cities" :addCity="addCity" :settingsFlag="settingsFlag" />
   </div>
 </template>
 
@@ -20,6 +20,7 @@ export default defineComponent({
       API_URL: process.env.VUE_APP_API_URL,
       API_KEY: process.env.VUE_APP_API_KEY,
       cities: [] as City[],
+      settingsFlag: false
     };
   },
 
@@ -40,6 +41,10 @@ export default defineComponent({
         pressure: result.data.main.pressure,
       };
       this.cities.push(newCity);
+    },
+
+    toggleSettings() {
+      this.settingsFlag = !this.settingsFlag
     }
   },
 });

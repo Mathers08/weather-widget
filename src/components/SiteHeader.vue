@@ -1,15 +1,35 @@
 <template>
-  <header class="header">
-    <div class="logo">
-      <i class="fa-solid fa-cloud fa-xl"></i>
-      <p>City Weather</p>
+  <header>
+    <div v-if="!settingsFlag" class="header">
+      <div class="logo">
+        <i class="fa-solid fa-cloud fa-xl"></i>
+        <h1 class="header__text">City Weather</h1>
+      </div>
+      <i class="fa-solid fa-gear fa-xl" @click="toggleSettings"></i>
     </div>
-    <i class="fa-solid fa-gear fa-xl"></i>
+    <div v-else class="header">
+      <h1 class="header__text">Settings</h1>
+      <i class="fa-solid fa-close fa-xl" @click="toggleSettings"></i>
+    </div>
   </header>
 </template>
 
 <script>
+import { defineComponent } from 'vue';
 
+export default defineComponent({
+  name: 'SiteHeader',
+  props: {
+    settingsFlag: {
+      type: Boolean,
+      required: true
+    },
+    toggleSettings: {
+      type: Function,
+      required: true
+    }
+  },
+});
 </script>
 
 <style lang="scss" scoped>
@@ -23,12 +43,16 @@
     gap: 15px;
     align-items: center;
     color: #fff;
+  }
 
-    p {
-      font-size: 26px;
-      letter-spacing: .7px;
-      font-weight: 700;
-    }
+  i {
+    cursor: pointer;
+  }
+
+  &__text {
+    font-size: 26px;
+    letter-spacing: .7px;
+    font-weight: 700;
   }
 }
 </style>

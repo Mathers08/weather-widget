@@ -2,7 +2,7 @@
   <main class="main">
     <div v-if="cities.length" class="main__list">
       <div :key="city.id" v-for="city in cities" class="main__list-item">
-        <city-item v-bind="city" />
+        <city-item v-bind="city" :settingsFlag="settingsFlag" />
       </div>
     </div>
     <div v-else class="main__empty">
@@ -10,8 +10,12 @@
         <i class="fa-solid fa-city"></i>
         <p>You have not added any cities yet</p>
       </div>
+      <div class="main__add">
+        <input v-model="cityValue" type="text" placeholder="Add your first city...">
+        <button @click="addCity(cityValue)">Add City</button>
+      </div>
     </div>
-    <div class="main__add">
+    <div v-if="settingsFlag && cities.length" class="main__add">
       <input v-model="cityValue" type="text" placeholder="Add your first city...">
       <button @click="addCity(cityValue)">Add City</button>
     </div>
@@ -33,6 +37,10 @@ export default defineComponent({
     addCity: {
       type: Function,
       required: true
+    },
+    settingsFlag: {
+      type: Boolean,
+      required: true
     }
   },
   data() {
@@ -52,9 +60,8 @@ export default defineComponent({
       display: flex;
       flex-direction: column;
       gap: 15px;
-      margin-bottom: 35px;
+      margin-bottom: 25px;
     }
-
   }
 
   &__empty {

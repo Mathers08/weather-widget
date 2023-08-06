@@ -1,9 +1,10 @@
 <template>
   <div class="city-name">
-    <i class="fa-solid fa-location-dot"></i>
+    <i v-if="!settingsFlag" class="fa-solid fa-location-dot"></i>
+    <i v-else class="fa-solid fa-bars"></i>
     <p>{{ name }}, {{ country }}</p>
   </div>
-  <div class="city-weather">
+  <div v-if="!settingsFlag" class="city-weather">
     <div class="city-weather__main">
       <p class="city-weather__main-temp">{{ temp.toFixed() }}&deg;C</p>
       <div class="city-weather__main-status">
@@ -52,6 +53,7 @@ export default defineComponent({
     visibility: Number,
     windSpeed: Number,
     pressure: Number,
+    settingsFlag: Boolean,
   },
 });
 </script>
@@ -60,11 +62,11 @@ export default defineComponent({
 .city-name {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
   font-size: 20px;
   font-weight: 700;
   margin-left: -25px;
-
+  color: #aefff4;
   i {
     font-size: 30px;
   }
