@@ -14,4 +14,26 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   color: #fff;
+  max-width: 720px;
+  margin: 40px auto;
+}
+
+
+html, .container {
+  scroll-behavior: smooth;
+  scroll-padding-top: 8rem;
+  overflow-x: hidden;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgb(183 192 223);
+    border-radius: 5rem;
+  }
 }

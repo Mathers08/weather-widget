@@ -47,11 +47,11 @@ export default defineComponent({
 
 <style lang="scss">
 .container {
-  max-width: 720px;
-  margin: 50px auto;
-  padding: 40px 30px;
+  padding: 30px;
   background: linear-gradient(rgba(65, 61, 234, 1), rgba(155, 153, 239, 0.5781));
   border-radius: 25px;
+  height: calc(100vh - 80px);
+  overflow: auto;
 
   i {
     font-size: 40px;

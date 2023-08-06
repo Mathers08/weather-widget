@@ -63,6 +63,7 @@ export default defineComponent({
   gap: 10px;
   font-size: 20px;
   font-weight: 700;
+  margin-left: -25px;
 
   i {
     font-size: 30px;
@@ -76,7 +77,7 @@ export default defineComponent({
     width: 60%;
 
     &-temp {
-      font-size: 100px;
+      font-size: 80px;
       font-weight: 700;
     }
 
@@ -90,9 +91,13 @@ export default defineComponent({
         display: flex;
         align-items: center;
         gap: 15px;
-        font-size: 24px;
+        font-size: 22px;
         font-weight: 700;
         width: 150px;
+
+        i {
+          font-size: 24px;
+        }
       }
     }
   }
@@ -102,12 +107,16 @@ export default defineComponent({
     flex-direction: column;
     align-items: center;
     width: 40%;
-    margin-top: -100px;
+    margin-top: -80px;
     font-size: 22px;
     font-weight: 700;
 
     &-img {
-      width: 250px;
+      width: 200px;
+    }
+
+    p {
+      font-size: 18px;
     }
   }
 }
