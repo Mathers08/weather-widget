@@ -7,6 +7,7 @@
     <city-list
         :cities="cities"
         :settingsFlag="settingsFlag"
+        v-model:cityValue="cityValue"
         :addCity="addCity"
         :removeCity="removeCity"
     />
@@ -14,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, Ref, ref } from 'vue';
 import { City } from "@/types/City";
 import CityList from "@/components/CityList.vue";
 import SiteHeader from "@/components/SiteHeader.vue";
@@ -23,21 +24,16 @@ import axios from 'axios';
 export default defineComponent({
   name: 'App',
   components: { CityList, SiteHeader },
-  data() {
-    return {
-      API_URL: process.env.VUE_APP_API_URL,
-      API_KEY: process.env.VUE_APP_API_KEY,
-      cities: [] as City[],
-      settingsFlag: false,
-    };
-  },
-  created() {
-    this.cities = JSON.parse(localStorage.getItem('cities') || '[]');
-  },
-  methods: {
-    async addCity(city: string) {
+  setup() {
+    const API_URL = process.env.VUE_APP_API_URL;
+    const API_KEY = process.env.VUE_APP_API_KEY;
+    const cities = ref(JSON.parse(localStorage.getItem('cities') || '[]')) as Ref<City[]>;
+    const settingsFlag = ref(false);
+    const cityValue = ref('');
+
+    const addCity = async (city: string) => {
       try {
-        const result = await axios.get(this.API_URL + city + `&appid=${this.API_KEY}`);
+        const result = await axios.get(API_URL + city + `&appid=${API_KEY}`);
         const newCity: City = {
           id: result.data.id,
           name: result.data.name,
@@ -51,30 +47,38 @@ export default defineComponent({
           windSpeed: result.data.wind.speed,
           pressure: result.data.main.pressure,
         };
-        if (this.cities.some((obj) => obj.id === newCity.id)) {
+        if (cities.value.some((obj: City) => obj.id === newCity.id)) {
           alert('Location already exist!');
         } else {
-          this.cities.push(newCity);
-          localStorage.setItem('cities', JSON.stringify(this.cities));
+          cities.value = [...cities.value, newCity];
+          localStorage.setItem('cities', JSON.stringify(cities.value));
+          cityValue.value = '';
         }
       } catch (e) {
         alert('Location does not exist!');
         console.log(e);
       }
-    },
+    };
 
-    removeCity(id: number) {
-      this.cities = this.cities.filter((c) => c.id !== id);
-      localStorage.setItem('cities', JSON.stringify(this.cities));
-      if (this.cities.length === 0) {
-        this.settingsFlag = false;
+    const removeCity = (id: number) => {
+      cities.value = cities.value.filter((c: City) => c.id !== id);
+      localStorage.setItem('cities', JSON.stringify(cities.value));
+      if (cities.value.length === 0) {
+        settingsFlag.value = false;
       }
-    },
+    };
 
-    toggleSettings() {
-      this.settingsFlag = !this.settingsFlag;
-    }
-  },
+    const toggleSettings = () => settingsFlag.value = !settingsFlag.value;
+
+    return {
+      cities,
+      settingsFlag,
+      cityValue,
+      addCity,
+      removeCity,
+      toggleSettings
+    };
+  }
 });
 </script>
 

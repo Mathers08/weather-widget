@@ -16,12 +16,14 @@
         <p>You have not added any cities yet</p>
       </div>
       <div class="main__add">
-        <input v-model="cityValue" type="text" placeholder="Add your first city...">
+        <input :value="cityValue" @input="$emit('update:cityValue', $event.target.value)"
+               placeholder="Add your first city...">
         <button @click="addCity(cityValue)">Add City</button>
       </div>
     </div>
     <div v-if="settingsFlag && cities.length" class="main__add">
-      <input v-model="cityValue" type="text" placeholder="Add your first city...">
+      <input :value="cityValue" @input="$emit('update:cityValue', $event.target.value)"
+             placeholder="Add your first city...">
       <button @click="addCity(cityValue)">Add City</button>
     </div>
   </main>
@@ -32,7 +34,7 @@ import { defineComponent } from 'vue';
 import CityItem from '@/components/CityItem.vue';
 
 export default defineComponent({
-  name: 'CityList',
+  name: 'city-list',
   components: { CityItem },
   props: {
     cities: {
@@ -41,6 +43,10 @@ export default defineComponent({
     },
     settingsFlag: {
       type: Boolean,
+      required: true
+    },
+    cityValue: {
+      type: String,
       required: true
     },
     addCity: {
@@ -52,11 +58,6 @@ export default defineComponent({
       required: true
     },
   },
-  data() {
-    return {
-      cityValue: 'London'
-    };
-  }
 });
 </script>
 

@@ -7,29 +7,28 @@
   </div>
   <div v-if="!settingsFlag" class="city-weather">
     <div class="city-weather__main">
-      <p class="city-weather__main-temp">{{ temp.toFixed() }}&deg;C</p>
+      <p class="city-weather__main-temp">{{ temp > 0 ? `+${temp.toFixed()}` : temp.toFixed() }}&deg;C</p>
       <div class="city-weather__main-status">
         <div class="status-item">
-          <i class="fa-solid fa-water"></i>
+          <i class="fa-solid fa-water" title="Humidity"></i>
           <p>{{ humidity }}%</p>
         </div>
         <div class="status-item">
-          <i class="fa-solid fa-wind"></i>
+          <i class="fa-solid fa-wind" title="Wind Speed"></i>
           <p>{{ windSpeed }}m/s</p>
         </div>
         <div class="status-item">
-          <i class="fa-regular fa-eye"></i>
+          <i class="fa-regular fa-eye" title="Visibility"></i>
           <p>{{ (visibility / 1000).toFixed(2) }}km</p>
         </div>
         <div class="status-item">
-          <i class="fa-solid fa-compass"></i>
+          <i class="fa-solid fa-compass" title="Pressure"></i>
           <p>{{ pressure }}hPa</p>
         </div>
       </div>
     </div>
     <div class="city-weather__less">
-      <!--      <div v-html="weatherType(weather)"></div>-->
-      <img class="city-weather__less-img" src="../assets/clouds.png" alt="">
+      <div v-html="weatherType(weather)"></div>
       <p>{{ capitalizeFirstLetter(description) }}</p>
       <p>Feels like {{ feelsLike.toFixed() }}&deg;C</p>
     </div>
@@ -41,7 +40,7 @@ import { defineComponent } from 'vue';
 import { capitalizeFirstLetter, weatherType } from '@/utils';
 
 export default defineComponent({
-  name: 'CityItem',
+  name: 'city-item',
   methods: { weatherType, capitalizeFirstLetter },
   props: {
     id: Number,
