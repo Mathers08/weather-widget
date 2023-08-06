@@ -28,10 +28,12 @@ export default defineComponent({
       API_URL: process.env.VUE_APP_API_URL,
       API_KEY: process.env.VUE_APP_API_KEY,
       cities: [] as City[],
-      settingsFlag: false
+      settingsFlag: false,
     };
   },
-
+  created() {
+    this.cities = JSON.parse(localStorage.getItem('cities') || '[]');
+  },
   methods: {
     async addCity(city: string) {
       try {
@@ -53,6 +55,7 @@ export default defineComponent({
           alert('Location already exist!');
         } else {
           this.cities.push(newCity);
+          localStorage.setItem('cities', JSON.stringify(this.cities));
         }
       } catch (e) {
         alert('Location does not exist!');
@@ -62,6 +65,7 @@ export default defineComponent({
 
     removeCity(id: number) {
       this.cities = this.cities.filter((c) => c.id !== id);
+      localStorage.setItem('cities', JSON.stringify(this.cities));
       if (this.cities.length === 0) {
         this.settingsFlag = false;
       }
