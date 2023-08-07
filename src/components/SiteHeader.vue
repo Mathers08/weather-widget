@@ -50,9 +50,13 @@ export default defineComponent({
   }
 
   &__text {
-    font-size: 26px;
+    font-size: clamp(20px, 4vw, 26px);
     letter-spacing: .7px;
     font-weight: 700;
+
+    @media screen and (max-width: 425px) {
+      letter-spacing: 0;
+    }
   }
 }
 </style>

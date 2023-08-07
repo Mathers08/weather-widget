@@ -13,8 +13,9 @@ body {
   background-image: url("@/assets/bg.png");
   background-size: cover;
   background-repeat: no-repeat;
+  background-position: center;
   color: #fff;
-  max-width: 720px;
+  max-width: clamp(300px, 75vw, 740px);
   margin: 40px auto;
 }
 

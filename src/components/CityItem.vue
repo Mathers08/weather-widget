@@ -28,7 +28,7 @@
       </div>
     </div>
     <div class="city-weather__less">
-      <div v-html="weatherType(weather)"></div>
+      <img :src="`https://openweathermap.org/img/wn/${icon}@2x.png`" alt="">
       <p>{{ capitalizeFirstLetter(description) }}</p>
       <p>Feels like {{ feelsLike.toFixed() }}&deg;C</p>
     </div>
@@ -37,11 +37,14 @@
 
 <script>
 import { defineComponent } from 'vue';
-import { capitalizeFirstLetter, weatherType } from '@/utils';
 
 export default defineComponent({
   name: 'city-item',
-  methods: { weatherType, capitalizeFirstLetter },
+  methods: {
+    capitalizeFirstLetter(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+  },
   props: {
     id: Number,
     name: String,
@@ -49,6 +52,7 @@ export default defineComponent({
     temp: Number,
     weather: String,
     description: String,
+    icon: String,
     feelsLike: Number,
     humidity: Number,
     visibility: Number,
@@ -90,8 +94,14 @@ export default defineComponent({
   &__main {
     width: 60%;
 
+    @media screen and (max-width: 866px) {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
     &-temp {
-      font-size: 80px;
+      font-size: clamp(30px, 8vw, 80px);
       font-weight: 700;
     }
 
@@ -101,16 +111,24 @@ export default defineComponent({
       gap: 30px;
       row-gap: 15px;
 
+      @media screen and (max-width: 932px) {
+        column-gap: 0;
+      }
+
+      @media screen and (max-width: 866px) {
+        gap: 5px;
+      }
+
       .status-item {
         display: flex;
         align-items: center;
         gap: 15px;
-        font-size: 22px;
+        font-size: clamp(14px, 3vw, 22px);
         font-weight: 700;
         width: 150px;
 
         i {
-          font-size: 24px;
+          font-size: clamp(14px, 3vw, 22px);
         }
       }
     }
@@ -125,12 +143,28 @@ export default defineComponent({
     font-size: 22px;
     font-weight: 700;
 
-    &-img {
-      width: 200px;
+    @media screen and (max-width: 932px) {
+      justify-content: center;
+    }
+    @media screen and (max-width: 600px) {
+      justify-content: end;
+    }
+    @media screen and (max-width: 500px) {
+      margin-left: 30px;
+    }
+    @media screen and (max-width: 411px) {
+      justify-content: center;
+      margin-top: -50px;
+    }
+
+    img {
+      width: clamp(100px, 30vw, 200px);
+      margin-bottom: -20px;
     }
 
     p {
-      font-size: 18px;
+      font-size: clamp(14px, 3vw, 18px);
+      text-align: center;
     }
   }
 }

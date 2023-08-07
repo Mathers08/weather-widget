@@ -41,6 +41,7 @@ export default defineComponent({
           temp: result.data.main.temp,
           weather: result.data.weather[0].main,
           description: result.data.weather[0].description,
+          icon: result.data.weather[0].icon,
           feelsLike: result.data.main.feels_like,
           humidity: result.data.main.humidity,
           visibility: result.data.visibility,
@@ -85,13 +86,18 @@ export default defineComponent({
 <style lang="scss">
 .container {
   padding: 30px;
-  background: linear-gradient(rgba(65, 61, 234, 1), rgba(155, 153, 239, 0.5781));
+  background: linear-gradient(rgb(65, 61, 234), rgba(155, 153, 239, 0.5781));
   border-radius: 25px;
   height: calc(100vh - 80px);
   overflow: auto;
 
   i {
     font-size: 40px;
+  }
+
+  img {
+    background-size: cover;
+    background-repeat: no-repeat;
   }
 }
 </style>

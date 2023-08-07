@@ -5,6 +5,7 @@ export interface City {
   temp: number;
   weather: string;
   description: string;
+  icon: string;
   feelsLike: number;
   humidity: number;
   visibility: number;
