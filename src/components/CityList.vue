@@ -1,14 +1,15 @@
 <template>
   <main class="main">
     <div v-if="cities.length" class="main__list">
-      <!--      <draggable v-model="cities">-->
-      <!--        <template #item="{ element: city }">-->
-      <!--          <city-item v-bind="city" :settingsFlag="settingsFlag" />-->
-      <!--        </template>-->
-      <!--      </draggable>-->
-      <div :key="city.id" v-for="city in cities" class="main__list-item">
+      <draggable v-if="settingsFlag" :list="cities">
+        <div :key="city.id" v-for="city in cities" class="main__list-item">
+          <city-item v-bind="city" :removeCity="removeCity" :settingsFlag="settingsFlag" />
+        </div>
+      </draggable>
+      <div v-else :key="city.id" v-for="city in cities" class="main__list-item">
         <city-item v-bind="city" :removeCity="removeCity" :settingsFlag="settingsFlag" />
       </div>
+
     </div>
     <div v-else class="main__empty">
       <div class="main__empty-info">
@@ -23,7 +24,7 @@
     </div>
     <div v-if="settingsFlag && cities.length" class="main__add">
       <input :value="cityValue" @input="$emit('update:cityValue', $event.target.value)"
-             placeholder="Add your first city...">
+             placeholder="Add a new city...">
       <button @click="addCity(cityValue)">Add City</button>
     </div>
   </main>
@@ -31,11 +32,12 @@
 
 <script>
 import { defineComponent } from 'vue';
+import { VueDraggableNext } from 'vue-draggable-next';
 import CityItem from '@/components/CityItem.vue';
 
 export default defineComponent({
   name: 'city-list',
-  components: { CityItem },
+  components: { CityItem, draggable: VueDraggableNext },
   props: {
     cities: {
       type: Array,
