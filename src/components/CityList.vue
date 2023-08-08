@@ -107,8 +107,13 @@ export default defineComponent({
     justify-content: center;
     gap: 20px;
 
+    @media screen and (max-width: 555px) {
+      flex-direction: column;
+      gap: 10px;
+    }
+
     input {
-      width: 255px;
+      width: clamp(180px, 30vw, 255px);
       padding: 13px 15px;
       border-radius: 20px;
       border: none;
